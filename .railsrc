@@ -6,3 +6,4 @@
 --skip-sprockets
 --skip-keeps
 --skip-test-unit
+--skip-bundle

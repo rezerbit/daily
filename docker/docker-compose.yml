@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  app:
+    container_name: daily-app
+    image: registry.rezerbit.com/daily/develop/app
+    build:
+      context: ../
+      dockerfile: ./docker/app/Dockerfile
+    working_dir: /app
+    environment:
+      RAILS_ENV: $RAILS_ENV
+    command: /bin/sh -c "while true; do sleep 30; done"
+    volumes:
+      - ..:/app
+      - bundle_cache:/bundle
+    depends_on:
+      - db
+      - redis
+
+  web:
+    container_name: daily-web
+    image: registry.rezerbit.com/daily/develop/app
+    build:
+      context: ../
+      dockerfile: ./docker/app/Dockerfile
+    working_dir: /app
+    environment:
+      RAILS_ENV: $RAILS_ENV
+    command: 'bash -c "rm -f /var/run/rails.pid && bundle exec rails s -b 0.0.0.0 -p 80 --pid /var/run/rails.pid"'
+    volumes:
+      - ..:/app
+      - bundle_cache:/bundle
+    ports:
+      - 80:80
+    depends_on:
+      - db
+      - redis
+      - app
+
+  db:
+    container_name: daily-db
+    image: postgres:11
+    environment:
+      POSTGRES_USER: $POSTGRES_USER
+    ports:
+      - 5432:5432
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+  redis:
+    container_name: daily-redis
+    image: redis:4
+    ports:
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+
+volumes:
+  bundle_cache:
+  pg-data:
+  redis-data:

@@ -1,0 +1,13 @@
+.git
+.dockerignore
+Gemfile.lock
+.bundle/
+coverage/
+log/
+tmp/
+.ruby-version
+.env
+.env.*
+vendor/bundle/
+spec/
+db/dump/

@@ -1,36 +1,35 @@
 pipeline:
-#  restore-cache:
-#    image: drillster/drone-volume-cache
-#    restore: true
-#    mount:
-#      - ./../bundler
-#    volumes:
-#      - /tmp/cache:/cache
-#
-#  run_tests:
-#    image: ruby:2.5.3
-#    environment:
-#      RAILS_ENV: test
-#    secrets: [ codecov_token ]
-#    commands:
-#      - gem update bundler
-#      - bundle install --path=../bundler --jobs=5 --retry=3
-#      - bundle exec rake db:create
-#      - bundle exec rake db:migrate
-#      - bundle exec rspec
-#
-#  rebuild-cache:
-#    image: drillster/drone-volume-cache
-#    rebuild: true
-#    mount:
-#      - ./../bundler
-#    volumes:
-#      - /tmp/cache:/cache
+  restore-cache:
+    image: drillster/drone-volume-cache
+    restore: true
+    mount:
+      - ./../bundler
+    volumes:
+      - /tmp/cache:/cache
+
+  run_tests:
+    image: ruby:2.5.3
+    environment:
+      RAILS_ENV: test
+    secrets: [ codecov_token ]
+    commands:
+      - gem update bundler
+      - bundle install --path=../bundler --jobs=5 --retry=3
+      - bundle exec rake db:create
+      - bundle exec rake db:migrate
+      - bundle exec rspec
+
+  rebuild-cache:
+    image: drillster/drone-volume-cache
+    rebuild: true
+    mount:
+      - ./../bundler
+    volumes:
+      - /tmp/cache:/cache
 
   telegram:
     image: appleboy/drone-telegram
     secrets: [ telegram_token, telegram_to ]
-    debug: true
     message: >
       {{#success build.status}}
         ✅ Success

@@ -32,7 +32,7 @@ end
 group :test do
   gem 'codecov', require: false
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
+  gem 'factory_bot_rails', '~> 4.11'
   gem 'rspec-rails', '~> 3.8'
   gem 'simplecov', '~> 0.16.1'
 end

@@ -8,8 +8,6 @@ services:
       context: ../
       dockerfile: ./docker/app/Dockerfile
     working_dir: /app
-    environment:
-      RAILS_ENV: $RAILS_ENV
     command: /bin/sh -c "while true; do sleep 30; done"
     volumes:
       - ..:/app
@@ -26,7 +24,7 @@ services:
       dockerfile: ./docker/app/Dockerfile
     working_dir: /app
     environment:
-      RAILS_ENV: $RAILS_ENV
+      WEBPACKER_DEV_SERVER_HOST: webpack_dev_server
     command: 'bash -c "rm -f /var/run/rails.pid && bundle exec rails s -b 0.0.0.0 -p 80 --pid /var/run/rails.pid"'
     volumes:
       - ..:/app
@@ -36,6 +34,25 @@ services:
     depends_on:
       - db
       - redis
+      - app
+
+  webpack_dev_server:
+    container_name: daily-webpack_dev_server
+    image: registry.rezerbit.com/daily/develop/app
+    build:
+      context: ../
+      dockerfile: ./docker/app/Dockerfile
+    working_dir: /app
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
+    command: 'bash -c "bin/webpack-dev-server"'
+    volumes:
+      - ..:/app
+      - bundle_cache:/bundle
+    ports:
+      - 3035:3035
+    depends_on:
+      - db
       - app
 
   db:

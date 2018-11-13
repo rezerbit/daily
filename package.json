@@ -1,5 +1,5 @@
 {
-  "name": "chat",
+  "name": "daily",
   "private": true,
   "dependencies": {
     "@rails/webpacker": "3.5",

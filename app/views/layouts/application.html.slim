@@ -7,5 +7,6 @@ html
     = stylesheet_pack_tag 'application'
 
   body
-    = yield
+    = c('page') do
+      = yield
     = javascript_pack_tag 'application'

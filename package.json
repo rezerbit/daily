@@ -2,9 +2,12 @@
   "name": "daily",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.5.0",
     "@rails/webpacker": "3.5",
+    "bulma": "^0.7.2",
     "normalize.css": "^8.0.0",
-    "postcss-nested": "^4.1.0"
+    "postcss-nested": "^4.1.0",
+    "postcss-preset-env": "^6.4.0"
   },
   "scripts": {
     "lint-staged": "$(yarn bin)/lint-staged"

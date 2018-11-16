@@ -16,7 +16,8 @@
 
 /config/master.key
 
-.idea
+.idea/
+.vscode/
 Gemfile.lock
 .rspec_status
 coverage
@@ -35,4 +36,3 @@ yarn-debug.log*
 yarn.lock
 
 docker/.env.prod
-

@@ -18,6 +18,8 @@ end
 
 group :development, :test do
   gem 'pry-byebug'
+  gem 'ruby-debug-ide'
+  gem 'debase'
 end
 
 group :development do

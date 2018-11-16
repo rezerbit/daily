@@ -24,13 +24,19 @@ services:
       dockerfile: ./docker/app/Dockerfile
     working_dir: /app
     environment:
+      # Need for not require bootsnap that has bug by debbuging. https://github.com/ruby-debug/ruby-debug-ide/issues/146
+      # DEBUG_MODE: true
       WEBPACKER_DEV_SERVER_HOST: webpack_dev_server
-    command: 'bash -c "rm -f /var/run/rails.pid && bundle exec rails s -b 0.0.0.0 -p 80 --pid /var/run/rails.pid"'
+    # Command for remote debug:
+    # command: 'bash -c "rm -f /var/run/rails.pid && debug-ide --host 0.0.0.0 --port 1234 --dispatcher-port 26162 -- bin/rails s -b 0.0.0.0 -p 80 --pid /var/run/rails.pid"'
+    command: 'bash -c "rm -f /var/run/rails.pid && bin/rails s -b 0.0.0.0 -p 80 --pid /var/run/rails.pid"'
     volumes:
       - ..:/app
       - bundle_cache:/bundle
     ports:
       - 80:80
+      # Port for remote debugger
+      # - 1234:1234
     depends_on:
       - db
       - redis
@@ -45,7 +51,7 @@ services:
     working_dir: /app
     environment:
       WEBPACKER_DEV_SERVER_HOST: 0.0.0.0
-    command: 'bash -c "bin/webpack-dev-server"'
+    command: 'bash -c "rm -rf /app/public/packs; bin/webpack-dev-server"'
     volumes:
       - ..:/app
       - bundle_cache:/bundle
